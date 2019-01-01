@@ -5,14 +5,18 @@ import functions
 
 try:
     import colorama
+
     colorama.init()
 except ImportError:
     pass
 
+
 def main():
     # check path first
     if not functions.check_in_path("choco"):
-        functions.print_error("Chocolatey needs to be installed and in the system PATH.")
+        functions.print_error(
+            "Chocolatey needs to be installed and in the system PATH."
+        )
         sys.exit(1)
 
     # arguments
@@ -69,19 +73,25 @@ def main():
             functions.print_info("Locally installed packages retrieved")
 
         # convert raw string to a list of packages
-        local_list = functions.local_packages_string_to_list(local_string, args.preserve_versions)
+        local_list = functions.local_packages_string_to_list(
+            local_string, args.preserve_versions
+        )
 
         if args.verbose:
             functions.print_info("Creating locally installed packages XML file")
 
         # convert list to XML file
         functions.create_xml(local_list, args.local_output)
-        functions.print_info("Locally installed packages XML file created at: " + args.local_output)
+        functions.print_info(
+            "Locally installed packages XML file created at: " + args.local_output
+        )
 
     if args.windows_features:
         # check if admin
         if not functions.check_admin():
-            functions.print_error("You need to run this program as an administrator to export Windows features")
+            functions.print_error(
+                "You need to run this program as an administrator to export Windows features"
+            )
             sys.exit(1)
 
         if args.verbose:
@@ -103,7 +113,9 @@ def main():
 
         # convert list to XML file
         functions.create_xml(windows_list, args.windows_output)
-        functions.print_info("Windows features XML file created at: " + args.windows_output)
+        functions.print_info(
+            "Windows features XML file created at: " + args.windows_output
+        )
 
 
 if __name__ == "__main__":

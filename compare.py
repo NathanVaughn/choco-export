@@ -5,6 +5,7 @@ import functions
 
 try:
     import colorama
+
     colorama.init()
 except ImportError:
     pass
@@ -13,22 +14,23 @@ except ImportError:
 def main():
     # check path first
     if not functions.check_in_path("choco"):
-        functions.print_error("Chocolatey needs to be installed and in the system PATH.")
+        functions.print_error(
+            "Chocolatey needs to be installed and in the system PATH."
+        )
         sys.exit(1)
 
     # check if admin
     if not functions.check_admin():
-        functions.print_error("You need to run this program as an administrator to export Windows features")
+        functions.print_error(
+            "You need to run this program as an administrator to export Windows features"
+        )
         sys.exit(1)
 
     # arguments
     parser = argparse.ArgumentParser(
         description="Windows feature comparison tool for Chocolately"
     )
-    parser.add_argument(
-        "input_file",
-        help="input package file to compare",
-    )
+    parser.add_argument("input_file", help="input package file to compare")
     parser.add_argument(
         "-o",
         "--output",
@@ -65,10 +67,14 @@ def main():
     xml_windows_list = functions.windows_packages_xml_to_list(args.input_file)
 
     # get items that are in the xml file, but not enabled
-    desired_windows_list = [item for item in installed_windows_list if item not in xml_windows_list]
+    desired_windows_list = [
+        item for item in installed_windows_list if item not in xml_windows_list
+    ]
 
     if not desired_windows_list:
-        functions.print_info("No Windows features in export list that are not already enabled")
+        functions.print_info(
+            "No Windows features in export list that are not already enabled"
+        )
         sys.exit(0)
 
     if args.verbose:

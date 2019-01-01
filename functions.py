@@ -7,6 +7,7 @@ import sys
 # import colorama if available
 try:
     import colorama
+
     COLOR = True
 except ImportError:
     COLOR = False
@@ -46,7 +47,8 @@ def print_error(message):
             + " | "
             + colorama.Fore.RED
             + message
-            + colorama.Style.RESET_ALL, file=sys.stderr
+            + colorama.Style.RESET_ALL,
+            file=sys.stderr,
         )
     else:
         print("ERROR | " + message, file=sys.stderr)
