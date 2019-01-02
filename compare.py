@@ -61,7 +61,7 @@ def main():
     installed_windows_list = functions.windows_packages_string_to_list(windows_string)
 
     if args.verbose:
-        functions.print_info("Getting Windows features from xml file")
+        functions.print_info("Getting Windows features from " + args.input_file)
 
     # get a list of packages from the given xml file
     xml_windows_list = functions.windows_packages_xml_to_list(args.input_file)

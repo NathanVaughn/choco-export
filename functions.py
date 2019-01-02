@@ -104,7 +104,15 @@ def windows_packages_xml_to_list(filename):
     packages = []
 
     # parse
-    tree = ET.parse(filename)
+    try:
+        tree = ET.parse(filename)
+    except FileNotFoundError:
+        print_error(filename + " does not exist")
+        sys.exit(1)
+    except IOError:
+        print_error("Could not read file " + filename)
+        sys.exit(1)
+
     # get root tag
     root = tree.getroot()
     # iterate through children
@@ -125,5 +133,12 @@ def create_xml(package_list, filename):
 
     # create a new XML file with the tree
     xmlstring = ET.tostring(packages).decode("utf-8")
-    with open(filename, "w") as outfile:
+
+    try:
+        outfile = open(filename, "w")
+    except IOError:
+        print_error("Could not write to file " + filename)
+        sys.exit(1)
+
+    with outfile:
         outfile.write(xmlstring)
