@@ -3,6 +3,7 @@ import re
 import shutil
 import subprocess
 import sys
+import xml.etree.ElementTree as ET
 
 # import colorama if available
 try:
@@ -11,12 +12,6 @@ try:
     COLOR = True
 except ImportError:
     COLOR = False
-
-# try to preferably import the c implementation of ElementTree
-try:
-    import xml.etree.cElementTree as ET
-except ImportError:
-    import xml.etree.ElementTree as ET
 
 
 def check_in_path(name):
