@@ -3,7 +3,8 @@ import re
 import shutil
 import subprocess
 import sys
-import xml.etree.ElementTree as ET
+import xml.dom.minidom
+import xml.etree.ElementTree
 
 # import colorama if available
 try:
@@ -105,7 +106,7 @@ def windows_packages_xml_to_list(filename):
 
     # parse
     try:
-        tree = ET.parse(filename)
+        tree = xml.etree.ElementTree.parse(filename)
     except FileNotFoundError:
         print_error(filename + " does not exist")
         sys.exit(1)
@@ -126,14 +127,18 @@ def create_xml(package_list, filename):
     """Creates xml file from the package list"""
 
     # create the root tag
-    packages = ET.Element("packages")
+    packages = xml.etree.ElementTree.Element("packages")
     # create child elements
     for package in package_list:
-        ET.SubElement(packages, "package", package)
+        xml.etree.ElementTree.SubElement(packages, "package", package)
 
-    # create a new XML file with the tree
-    xmlstring = ET.tostring(packages).decode("utf-8")
+    # create a new XML string with the tree
+    xmlstring = xml.etree.ElementTree.tostring(packages).decode("utf-8")
+    # make it pretty
+    xmldom = xml.dom.minidom.parseString(xmlstring)
+    xmlstring = xmldom.toprettyxml()
 
+    # write string to file
     try:
         outfile = open(filename, "w")
     except IOError:
